@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SpeakAndRead.Models.Review>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reviews</h1>
+
+@if (SignInManager.IsSignedIn(User))
+{
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnteredBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnteredBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReviewId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReviewId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ReviewId">Delete</a>
+                </td>
+            }
+            </tr>
+        }
+    </tbody>
+</table>
